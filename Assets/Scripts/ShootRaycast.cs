@@ -38,9 +38,19 @@ public class ShootRaycast : MonoBehaviour
                 muzzle.transform.LookAt(hit.point);
 
                 //spawn particle at hit point
-                Instantiate(hitPointPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+                GameObject hitEffect = Instantiate(hitPointPrefab, hit.point, Quaternion.LookRotation(hit.normal));
 
                 Destroy(muzzle, 1);
+                Destroy(hitEffect, 1);
+
+                if (hit.collider.name == "Enemy")
+                {
+                    Enemy enemy = hit.collider.GetComponent<Enemy>();
+                    if (enemy != null)
+                    {
+                        enemy.TakeDamage();
+                    }
+                }
             }
         }
     }
