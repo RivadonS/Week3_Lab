@@ -30,6 +30,18 @@ public class ShootRaycast : MonoBehaviour
         {
             Debug.DrawRay(shootPoint.position, transform.forward * hit.distance, Color.red);
             Debug.Log("Ray Hits " + hit.collider.name);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                //spawn particle at shoot point
+                GameObject muzzle = Instantiate(shootPointPrefab, shootPoint.position, Quaternion.identity);
+                muzzle.transform.LookAt(hit.point);
+
+                //spawn particle at hit point
+                Instantiate(hitPointPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+
+                Destroy(muzzle, 1);
+            }
         }
     }
 }
